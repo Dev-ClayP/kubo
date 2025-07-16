@@ -131,6 +131,17 @@ func (api *SwarmAPI) ListenAddrs(ctx context.Context) ([]ma.Multiaddr, error) {
 	return api.peerHost.Network().InterfaceListenAddresses()
 }
 
+func (api *SwarmAPI) PeerCount(ctx context.Context) (int, error) {
+	_, span := tracing.Span(ctx, "CoreAPI.SwarmAPI", "PeerCount")
+	defer span.End()
+
+	if api.peerHost == nil {
+		return 0, coreiface.ErrOffline
+	}
+
+	return api.peerHost.Network().Conns()
+}
+
 func (api *SwarmAPI) Peers(ctx context.Context) ([]coreiface.ConnectionInfo, error) {
 	_, span := tracing.Span(ctx, "CoreAPI.SwarmAPI", "Peers")
 	defer span.End()
