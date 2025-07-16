@@ -139,7 +139,7 @@ func (api *SwarmAPI) PeerCount(ctx context.Context) (int, error) {
 		return 0, coreiface.ErrOffline
 	}
 
-	return api.peerHost.Network().Conns()
+	return len(api.peerHost.Network().Conns())
 }
 
 func (api *SwarmAPI) Peers(ctx context.Context) ([]coreiface.ConnectionInfo, error) {
